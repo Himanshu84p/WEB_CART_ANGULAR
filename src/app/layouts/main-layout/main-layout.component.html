@@ -1,0 +1,47 @@
+<nav>
+    <section class="navbar">
+      <div class="logo-container">
+        <h1>WEB CART</h1>
+      </div>
+      <div class="menu-item-container">
+        <ul class="items">
+          <li *ngIf="authService.isLoggedIn()" class="list-item">
+            <a
+              class="home"
+              routerLink="/dashboard/home"
+              routerLinkActive="active_item"
+              >Home</a
+            >
+          </li>
+          <li *ngIf="authService.isLoggedIn()" class="list-item">
+            <a
+              class="products"
+              routerLink="/dashboard/products"
+              routerLinkActive="active_item"
+              >Products</a
+            >
+          </li>
+          <li *ngIf="authService.isLoggedIn()" class="list-item">
+            <a
+              class="cart"
+              routerLink="/dashboard/cart"
+              routerLinkActive="active_item"
+              >Cart()</a
+            >
+          </li>
+          <li *ngIf="authService.isLoggedIn()" class="list-item">
+            <a class="logout" (click)="logout()">Logout</a>
+          </li>
+          <li *ngIf="authService.isLoggedIn()" class="">
+            <a class="name">Hello, {{ currUser.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </nav>
+  
+  <main class="main">
+    <div class="content">
+      <router-outlet />
+    </div>
+  </main>

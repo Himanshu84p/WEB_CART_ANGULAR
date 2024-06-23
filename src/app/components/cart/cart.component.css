@@ -1,0 +1,22 @@
+/* cart.component.css */
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+
+.btn-outline-secondary {
+  border-color: #ced4da;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}

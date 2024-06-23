@@ -1,0 +1,27 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.main {
+  width: fit-content;
+  margin-top: 5rem;
+  padding: 1rem 2rem 2rem 2rem;
+  background-image: linear-gradient(to bottom right, #a8edea, #fed6e3);
+  border-radius: 1rem;
+  border: 1px solid black;
+}
+
+h1 {
+  font-size: xx-large;
+  margin: 1rem 0 2rem 0;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+small {
+  color: red;
+}
