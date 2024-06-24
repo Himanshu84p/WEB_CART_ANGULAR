@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable, map, tap } from 'rxjs';
+import { CartState } from '../../store/reducers/cart.reducer';
+import * as CartAction from '../../store/actions/cart.action';
 
 @Component({
   selector: 'app-cart',
@@ -9,34 +13,52 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
-export class CartComponent {
-  cartItems: any[] = [
-    { id: 2, name: 'Product 2', price: 20, quantity: 1 },
-    { id: 3, name: 'Product 3', price: 30, quantity: 1 },
-    { id: 1, name: 'Product 1', price: 10, quantity: 1 },
-  ];
+export class CartComponent implements OnInit {
+  cart$: Observable<any>;
+  loading$: Observable<boolean>;
+  error$: Observable<any>;
+  subtotal$: Observable<number>;
 
-  getTotalPrice(): number {
-    return this.cartItems.reduce((acc, item) => acc + item.price, 0);
+  constructor(private store: Store<{ cart: CartState }>) {
+    this.cart$ = this.store
+      .select((state) => state.cart.items)
+      .pipe(tap((cart) => console.log('Cart Items:', cart)));
+    this.loading$ = this.store
+      .select((state) => state.cart.loading)
+      .pipe(tap((loading) => console.log('Loading:', loading)));
+    this.error$ = this.store
+      .select((state) => state.cart.error)
+      .pipe(tap((error) => console.log('Error:', error)));
+    this.subtotal$ = this.cart$.pipe(
+      map((items) =>
+        items.reduce(
+          (sum: any, item: any) => sum + item.price * item.quantity,
+          0,
+          console.log('')
+        )
+      )
+    );
   }
 
-  getTotalItems(): number {
-    return this.cartItems.length;
+  ngOnInit(): void {
+    this.store.dispatch(CartAction.fetchCart());
+    console.log('cart', this.cart$);
   }
 
-  clearCart() {
-    this.cartItems = [];
+  removeProduct(productId: string): void {
+    this.store.dispatch(CartAction.removeProductFromCart({ productId }));
   }
 
-  removeFromCart(index: number) {
-    if (index >= 0 && index < this.cartItems.length) {
-      this.cartItems.splice(index, 1);
-    }
+  incrementQuantity(productId: string, quantity: number): void {
+    console.log('button clicked increment');
+    this.store.dispatch(
+      CartAction.incrementProductQuantity({ productId, quantity })
+    );
   }
 
-  updateQuantity(index: number, quantity: number) {
-    if (index >= 0 && index < this.cartItems.length && quantity >= 1) {
-      this.cartItems[index].quantity = quantity;
-    }
+  decrementQuantity(productId: string, quantity: number): void {
+    this.store.dispatch(
+      CartAction.decrementProductQuantity({ productId, quantity })
+    );
   }
 }

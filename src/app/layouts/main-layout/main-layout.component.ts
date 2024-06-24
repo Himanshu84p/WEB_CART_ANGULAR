@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   Router,
   RouterLink,
@@ -8,6 +8,10 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CommonModule } from '@angular/common';
+import { Observable, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { CartState } from '../../store/reducers/cart.reducer';
+import * as CartAction from '../../store/actions/cart.action';
 
 @Component({
   selector: 'app-main-layout',
@@ -16,16 +20,38 @@ import { CommonModule } from '@angular/common';
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css',
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit{
+  cart$: Observable<any>;
+  loading$: Observable<boolean>;
+  error$: Observable<any>;
+
   currUser: any = {};
   //service for toast
   private toastService = inject(HotToastService);
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private store: Store<{ cart: CartState }>
+  ) {
     if (authService.isLoggedIn()) {
       this.currUser = JSON.parse(localStorage.getItem('user') || '{}');
       console.log('curr user', this.currUser);
     }
+
+    this.cart$ = this.store
+      .select((state) => state.cart.items)
+      .pipe(tap((cart) => console.log('Cart Items:', cart)));
+    this.loading$ = this.store
+      .select((state) => state.cart.loading)
+      .pipe(tap((loading) => console.log('Loading:', loading)));
+    this.error$ = this.store
+      .select((state) => state.cart.error)
+      .pipe(tap((error) => console.log('Error:', error)));
+  }
+  ngOnInit(): void {
+    this.store.dispatch(CartAction.fetchCart());
+    console.log('cart', this.cart$);
   }
 
   //for logout the user

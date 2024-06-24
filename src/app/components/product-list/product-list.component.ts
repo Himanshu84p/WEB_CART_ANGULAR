@@ -7,6 +7,10 @@ import {
   MatCardActions,
   MatCardContent,
 } from '@angular/material/card';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { CartState } from '../../store/reducers/cart.reducer';
+import * as CartAction from "../../store/actions/cart.action"
 
 @Component({
   selector: 'app-product-list',
@@ -18,26 +22,38 @@ import {
 export class ProductListComponent implements OnInit {
   products: any[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private store: Store<{ cart: CartState }>
+  ) {}
 
   ngOnInit(): void {
     this.fetchProducts();
     console.log('ngon init');
   }
 
-  fetchProducts(): void {
-    this.productService.getAllProducts().subscribe(
-      (data: any) => {
-        console.log('data', data);
-        this.products = data.data;
-      },
-      (error) => {
-        console.error('Error fetching products:', error);
-      }
-    );
+  fetchProducts() {
+    setTimeout(() => {
+      this.productService.getAllProducts().subscribe(
+        (data: any) => {
+          console.log('data from fetching', data);
+          this.products = data.data;
+        },
+        (error: any) => {
+          console.error('Error fetching products:', error);
+        }
+      );
+    }, 500);
   }
 
-  addToCart(product: any): void {
-    // Implement your add to cart functionality here
+  addToCart(productId: string): void {
+    this.store.dispatch(CartAction.addProductToCart({ productId, quantity: 1 }));
   }
+
+  seeProductDetails(id: string) {
+    this.router.navigate(['/dashboard/products', id]);
+  }
+
+
 }

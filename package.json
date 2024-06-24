@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@ngneat/overview": "^6.0.0",
+    "@ngrx/effects": "^18.0.0",
+    "@ngrx/store": "^18.0.0",
     "@ngxpert/hot-toast": "^3.0.0",
     "bootstrap": "^5.3.3",
     "rxjs": "~7.8.0",

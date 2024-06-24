@@ -47,20 +47,18 @@
 <!-- cart.component.html -->
 
 <div class="container mt-4">
+  @if (cart$ ) {
   <div class="row">
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">Cart Items</div>
         <ul class="list-group list-group-flush">
-          <li
-            class="list-group-item"
-            *ngFor="let item of cartItems; let i = index"
-          >
+          <li class="list-group-item" *ngFor="let item of cart$ | async">
             <div class="row align-items-center">
               <div class="col-md-2">
                 <img
-                  src="https://via.placeholder.com/50"
-                  alt="{{ item.name }}"
+                  [src]="item.productId.image"
+                  [alt]="item.name"
                   class="img-fluid rounded"
                 />
               </div>
@@ -74,39 +72,44 @@
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    (click)="updateQuantity(i, item.quantity - 1)"
+                    (click)="
+                      decrementQuantity(item.productId._id, item.quantity - 1)
+                    "
                   >
                     -
                   </button>
+                  <!-- add item.quantity here -->
                   <input
                     type="text"
                     class="form-control text-center"
-                    [(ngModel)]="item.quantity"
-                    [ngModelOptions]="{ standalone: true }"
+                    [value]="item.quantity"
                     readonly
                   />
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    (click)="updateQuantity(i, item.quantity + 1)"
+                    (click)="
+                      incrementQuantity(item.productId._id, item.quantity + 1)
+                    "
                   >
                     +
                   </button>
                 </div>
                 <button
                   class="btn btn-danger btn-sm mt-2"
-                  (click)="removeFromCart(i)"
+                  (click)="removeProduct(item._id)"
                 >
                   Remove
                 </button>
+                <span class="text-center ms-2 text-primary"
+                  >${{ item.price * item.quantity }}</span
+                >
               </div>
             </div>
           </li>
         </ul>
         <div class="card-footer">
-          <button class="btn btn-secondary btn-sm" (click)="clearCart()">
-            Clear Cart
-          </button>
+          <button class="btn btn-secondary btn-sm">Clear Cart</button>
         </div>
       </div>
     </div>
@@ -115,10 +118,10 @@
         <div class="card-header">Checkout Summary</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <div>Total Items: {{ getTotalItems() }}</div>
+            <div>Total Items: {{ (cart$ | async)?.length || 0 }}</div>
           </li>
           <li class="list-group-item">
-            <div>Total Price: ${{ getTotalPrice() }}</div>
+            <div>Total Order Value: ${{ subtotal$ | async }}</div>
           </li>
         </ul>
         <div class="card-footer">
@@ -127,4 +130,7 @@
       </div>
     </div>
   </div>
+  } @if (!cart$) {
+  <h1 class="mt-5 text-center">Cart is Empty add Products to view</h1>
+  }
 </div>
