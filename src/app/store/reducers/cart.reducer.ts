@@ -5,6 +5,7 @@ export interface CartState {
   items: any[];
   loading: boolean;
   error: any;
+  
 }
 
 export const initialState: CartState = {
@@ -32,6 +33,11 @@ export const cartReducer = createReducer(
     items,
     loading: false,
   })),
+  on(CartAction.deleteCart, (state) => ({
+    ...state,
+    items :[],
+    loading: false,
+  })),
   on(CartAction.addProductToCartSuccess, (state, { items }) => ({
     ...state,
     items,
@@ -39,25 +45,34 @@ export const cartReducer = createReducer(
   })),
   on(CartAction.removeProductFromCartSuccess, (state, { productId }) => ({
     ...state,
-    items: state.items.filter((item) => item._id !== productId),
+    items: state.items.filter((item) => item.productId._id !== productId),
     loading: false,
   })),
-  on(CartAction.updateProductQuantitySuccess, (state, { productId, quantity }) => ({
-    ...state,
-    items: state.items.map(item => item._id === productId ? { ...item, quantity } : item),
-    loading: false,
-  })),
+  on(
+    CartAction.updateProductQuantitySuccess,
+    (state, { productId, quantity }) => ({
+      ...state,
+      items: state.items.map((item) =>
+        item.productId._id === productId ? { ...item, quantity } : item
+      ),
+      loading: false,
+    })
+  ),
   on(CartAction.incrementProductQuantitySuccess, (state, { productId }) => ({
     ...state,
     items: state.items.map((item) =>
-      item._id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      item.productId._id === productId
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
     ),
     loading: false,
   })),
-  on(CartAction.decrementProductQuantitySuccess, (state, { productId}) => ({
+  on(CartAction.decrementProductQuantitySuccess, (state, { productId }) => ({
     ...state,
     items: state.items.map((item) =>
-      item._id === productId ? { ...item, quantity: item.quantity - 1 } : item
+      item.productId._id === productId
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
     ),
     loading: false,
   })),

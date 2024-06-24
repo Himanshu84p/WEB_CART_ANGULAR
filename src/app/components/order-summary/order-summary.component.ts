@@ -1,27 +1,29 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Component, inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { CartState } from '../../store/reducers/cart.reducer';
+import { Store } from '@ngrx/store';
 import * as CartAction from '../../store/actions/cart.action';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { CartService } from '../../services/cart.service';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
-  selector: 'app-cart',
+  selector: 'app-order-summary',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+  imports: [FormsModule, AsyncPipe, CurrencyPipe],
+  templateUrl: './order-summary.component.html',
+  styleUrl: './order-summary.component.css',
 })
-export class CartComponent implements OnInit {
+export class OrderSummaryComponent {
   cart$: Observable<any>;
   loading$: Observable<boolean>;
   error$: Observable<any>;
   subtotal$: Observable<number>;
 
-  private toast = inject(HotToastService)
+  private cartService = inject(CartService);
+  private toast = inject(HotToastService);
 
   constructor(
     private store: Store<{ cart: CartState }>,
@@ -52,25 +54,15 @@ export class CartComponent implements OnInit {
     console.log('cart', this.cart$);
   }
 
-  removeProduct(productId: string): void {
-    this.toast.success("Product Removed from cart")
-    this.store.dispatch(CartAction.removeProductFromCart({ productId }));
-  }
+  confirmOrder() {
+    this.cartService.deleteCart().subscribe((response: any) => {
+      this.toast.info('Order SuccessFully Placed');
+      this.router.navigateByUrl('/dashboard/home');
+      console.log("response ",response)
+    });
 
-  incrementQuantity(productId: string, quantity: number): void {
-    console.log('button clicked increment');
     this.store.dispatch(
-      CartAction.incrementProductQuantity({ productId, quantity })
+      CartAction.deleteCart()
     );
-  }
-
-  decrementQuantity(productId: string, quantity: number): void {
-    this.store.dispatch(
-      CartAction.decrementProductQuantity({ productId, quantity })
-    );
-  }
-
-  handleCheckout() {
-    this.router.navigate(['/dashboard/checkout']);
   }
 }

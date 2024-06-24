@@ -1,0 +1,32 @@
+/* order-summary.component.scss */
+
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+  }
+  
+  .list-group-item {
+    border: none;
+  }
+  
+  .input-group-text {
+    background-color: #f8f9fa;
+  }
+  
+  .text-primary {
+    font-weight: bold;
+  }
+  

@@ -8,6 +8,8 @@ import { SignInComponent } from './form/sign-in/sign-in.component';
 import { ErrorComponent } from './error/error.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { CartComponent } from './components/cart/cart.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 
 export const routes: Routes = [
   {
@@ -34,6 +36,16 @@ export const routes: Routes = [
         path: 'cart',
         component: CartComponent,
         title: 'Cart',
+      },
+      {
+        path: 'checkout',
+        component: OrderFormComponent,
+        title: 'Checkout',
+      },
+      {
+        path: 'order-summary',
+        component: OrderSummaryComponent,
+        title: 'Order-Summary',
       },
       {
         path: '**',

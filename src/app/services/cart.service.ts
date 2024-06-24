@@ -74,7 +74,7 @@ export class CartService {
 
   //fetch the cart
   deleteCart(): Observable<any> {
-    return this.http.delete(`${this.apiUrl}`, this.getHttpOptions()).pipe(
+    return this.http.delete(`${this.apiUrl}/delete-cart`, this.getHttpOptions()).pipe(
       map((response: any) => {
         console.log('response', response);
         return response;

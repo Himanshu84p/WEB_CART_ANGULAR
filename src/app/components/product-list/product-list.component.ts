@@ -10,7 +10,8 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CartState } from '../../store/reducers/cart.reducer';
-import * as CartAction from "../../store/actions/cart.action"
+import * as CartAction from '../../store/actions/cart.action';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +26,9 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private store: Store<{ cart: CartState }>
+    private store: Store<{ cart: CartState }>,
+
+    private toast: HotToastService
   ) {}
 
   ngOnInit(): void {
@@ -48,12 +51,13 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(productId: string): void {
-    this.store.dispatch(CartAction.addProductToCart({ productId, quantity: 1 }));
+    this.toast.success("Product Added to cart")
+    this.store.dispatch(
+      CartAction.addProductToCart({ productId, quantity: 1 })
+    );
   }
 
   seeProductDetails(id: string) {
     this.router.navigate(['/dashboard/products', id]);
   }
-
-
 }

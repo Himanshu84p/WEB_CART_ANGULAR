@@ -12,6 +12,8 @@ export const removeProductFromCart = createAction(
 
 export const fetchCart = createAction('[Cart] Fetch Cart');
 
+export const deleteCart = createAction('[Cart] Delete Cart');
+
 export const incrementProductQuantity = createAction(
   '[Cart] Increment Product Quantity',
   props<{ productId: string; quantity: number }>()
