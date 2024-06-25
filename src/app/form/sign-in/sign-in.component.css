@@ -8,7 +8,8 @@
   width: fit-content;
   margin-top: 5rem;
   padding: 1rem 2rem 2rem 2rem;
-  background-image: linear-gradient(to bottom right, #a8edea, #fed6e3);
+  /* background-image: linear-gradient(to bottom right, #a8edea, #fed6e3); */
+  background-color: lightblue;
   border-radius: 1rem;
   border: 1px solid black;
 }

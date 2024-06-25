@@ -41,7 +41,7 @@ export const fetchCartSuccess = createAction(
 
 export const addProductToCartSuccess = createAction(
   '[Cart] Add Product Success',
-  props<{ items: any[] }>()
+  props<{ productId: string, quantity : number}>()
 );
 
 export const removeProductFromCartSuccess = createAction(

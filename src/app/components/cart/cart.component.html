@@ -1,53 +1,5 @@
-<!-- 
 <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">
-            Cart Items
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let item of cartItems; let i = index">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <h5 class="card-title">{{ item.name }}</h5>
-                  <p class="card-text">Price: ${{ item.price }}</p>
-                </div>
-                <button class="btn btn-danger btn-sm" (click)="removeFromCart(i)">Remove</button>
-              </div>
-            </li>
-          </ul>
-          <div class="card-footer">
-            <button class="btn btn-secondary btn-sm" (click)="clearCart()">Clear Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Checkout Summary
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <div>Total Items: {{ cartItems.length }}</div>
-            </li>
-            <li class="list-group-item">
-              <div>Total Price: ${{ getTotalPrice() }}</div>
-              <div>Total Price: $20</div>
-            </li>
-          </ul>
-          <div class="card-footer">
-            <button class="btn btn-primary btn-block">Proceed to Checkout</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-   -->
-<!-- cart.component.html -->
-
-<div class="container mt-4">
-  @if ((cart$ | async)?.length !== 0 ) {
+  @if ((cart$ | async)?.length !== 0 && !( loading$ | async)) {
   <div class="row">
     <div class="col-md-8">
       <div class="card">
@@ -101,9 +53,10 @@
                 >
                   Remove
                 </button>
-                <span class="text-center ms-2 text-primary"
-                  >${{ item.price * item.quantity }}</span
-                >
+                <span class="text-center ms-2 text-primary">{{
+                  item.price * item.quantity
+                    | currency : "USD" : "symbol" : "1.2-2"
+                }}</span>
               </div>
             </div>
           </li>
@@ -113,22 +66,31 @@
     </div>
     <div class="col-md-4">
       <div class="card">
-        <div class="card-header">Checkout Summary</div>
+        <div class="card-header"><strong>Checkout Summary</strong></div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div>Total Items: {{ (cart$ | async)?.length || 0 }}</div>
           </li>
           <li class="list-group-item">
-            <div>Total Order Value: {{ subtotal$ | async | currency }}</div>
+            <div>
+              Total Order Value:
+              <strong>{{
+                subtotal$ | async | currency : "USD" : "symbol" : "1.2-2"
+              }}</strong>
+            </div>
           </li>
         </ul>
         <div class="card-footer">
-          <button class="btn btn-primary btn-block" (click)="handleCheckout()">Proceed to Checkout</button>
+          <button class="btn btn-primary btn-block" (click)="handleCheckout()">
+            Proceed to Checkout
+          </button>
         </div>
       </div>
     </div>
   </div>
-  } @if ((cart$ | async)?.length == 0) {
+  } @if ((cart$ | async)?.length == 0 && !(loading$ | async )) {
   <h1 class="mt-5 text-center">Cart is Empty add Products to view !!</h1>
+  } @if (loading$ | async) {
+  <app-loader></app-loader>
   }
 </div>

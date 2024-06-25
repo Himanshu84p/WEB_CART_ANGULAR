@@ -26,8 +26,8 @@ export class CartEffects {
       ofType(CartAction.addProductToCart),
       mergeMap(({ productId, quantity }) =>
         this.cartService.addItemToCart(productId, quantity).pipe(
-          map((items) => {
-            return CartAction.addProductToCartSuccess({ items });
+          map(() => {
+            return CartAction.addProductToCartSuccess({ productId, quantity });
           }),
           catchError((error) => of(CartAction.cartError({ error })))
         )

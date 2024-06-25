@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router , RouterOutlet,RouterLink,RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLinkActive, RouterLink],
   templateUrl: './auth-layout.component.html',
   styleUrl: './auth-layout.component.css',
 })

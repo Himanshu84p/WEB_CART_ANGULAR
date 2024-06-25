@@ -1,3 +1,7 @@
+@if (!isLoading) {
+  @if(error.length === 0 ){
+
+  
 <div class="product-list">
   <div class="row">
     <div
@@ -9,8 +13,12 @@
           class="card-img-top"
           [src]="product.image"
           alt="{{ product.name }}"
+          [routerLink]="['/dashboard/product-details', product._id]"
         />
-        <div class="card-body">
+        <div
+          class="card-body"
+          [routerLink]="['/dashboard/product-details', product._id]"
+        >
           <h5 class="card-title">{{ product.name }}</h5>
           <p class="card-text">{{ product.description }}</p>
           <p class="card-text">Price: ${{ product.price }}</p>
@@ -28,3 +36,10 @@
     </div>
   </div>
 </div>
+  }
+  @if (error) {
+    <h4 class="text-center pt-5">{{error}}</h4>
+  }
+} @if (isLoading) {
+<app-loader></app-loader>
+}

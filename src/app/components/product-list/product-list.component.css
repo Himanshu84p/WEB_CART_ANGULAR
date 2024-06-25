@@ -1,29 +1,29 @@
 /* Additional styling for responsiveness and aesthetics */
 .product-list {
-    padding: 20px;
-  }
-  
+  padding: 20px;
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-footer {
+  background-color: #f8f9fa;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
   .card {
-    transition: transform 0.2s;
+    margin-bottom: 30px;
   }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-footer {
-    background-color: #f8f9fa;
-    padding: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .card {
-      margin-bottom: 30px;
-    }
-  }
-  
+}

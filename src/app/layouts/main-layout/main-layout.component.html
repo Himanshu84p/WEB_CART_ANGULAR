@@ -1,3 +1,4 @@
+
 <nav>
   <section class="navbar">
     <div class="logo-container">
@@ -26,7 +27,7 @@
             class="cart"
             routerLink="/dashboard/cart"
             routerLinkActive="active_item"
-            >Cart({{ (cart$ | async)?.length || 0 }})</a
+            >Cart({{ (cart$ | async)?.length || 0}})</a
           >
         </li>
         <li *ngIf="authService.isLoggedIn()" class="list-item">

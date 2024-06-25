@@ -10,6 +10,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { CartComponent } from './components/cart/cart.component';
 import { OrderFormComponent } from './components/order-form/order-form.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,11 @@ export const routes: Routes = [
         path: 'order-summary',
         component: OrderSummaryComponent,
         title: 'Order-Summary',
+      },
+      {
+        path: 'product-details/:id',
+        component: ProductDetailsComponent,
+        title: 'product-detials',
       },
       {
         path: '**',

@@ -1,0 +1,49 @@
+.product-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: left  ;
+}
+
+.product-description {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  color: #000;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.product-stock {
+  font-size: 1rem;
+  color: green;
+  margin-bottom: 1rem;
+}
+
+.product-rating {
+  font-size: 1rem;
+  color: #ffc107;
+  margin-bottom: 1rem;
+}
+.img-div {
+  border-radius: 2rem;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: 500px;
+  padding: 2rem;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.main-card {
+  background-color: #EBF4F6;
+  border-radius: 50px;
+  width: 900px;
+  box-shadow: 10px 12px 10px 10px rgba(0, 0, 0, .2);}
