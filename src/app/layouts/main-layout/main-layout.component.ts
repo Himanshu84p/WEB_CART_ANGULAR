@@ -57,6 +57,9 @@ export class MainLayoutComponent implements OnInit {
   }
   ngOnInit(): void {
     this.store.dispatch(CartAction.fetchCart());
+    this.cart$.subscribe((length) => {
+      console.log('length in cart', length)
+    })
     console.log('cart in main component', this.cart$);
   }
 

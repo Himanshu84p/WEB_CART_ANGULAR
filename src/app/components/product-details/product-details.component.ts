@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { LoaderComponent } from '../loader/loader.component';
   styleUrl: './product-details.component.css',
 })
 export class ProductDetailsComponent implements OnInit {
+  cart$: Observable<any>;
   productId: any = '';
   productService = inject(ProductService);
   toast = inject(HotToastService);
@@ -26,7 +27,11 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private store: Store<{ cart: CartState }>
-  ) {}
+  ) {
+    this.cart$ = this.store
+      .select((state) => state.cart.items)
+      .pipe(tap((cart) => console.log('Cart Items in cart component:', cart)));
+  }
 
   //fetch one product from pramatere id
   fetchProduct(productId: string) {
@@ -47,11 +52,27 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   //function to add cart 
-  addToCart(productId: string): void {
-    this.toast.success('Product Added to cart');
-    this.store.dispatch(
-      CartAction.addProductToCart({ productId, quantity: 1 })
-    );
+  addToCart(productId: string, stock: number): void {
+    let product:any[] = [];
+    let productInCart:any[] = [];
+    this.cart$.subscribe((cart) => {
+      console.log('products in cart', cart)
+      productInCart = cart.filter((product: any) => product.productId._id === productId)
+    })
+    if (productInCart.length !== 0) {
+      this.cart$.subscribe((cart) => {
+        product = cart.filter((product: any) => product.quantity + 1 > stock)
+      })
+    }
+    console.log('pfffffffffffffffffffffff>>>>>>>',product ,productInCart)
+    if (product.length !== 0 && productInCart.length !== 0) {
+      this.toast.warning("Max product stock exceed")
+    } else {
+      this.toast.success('Product added to cart');
+      this.store.dispatch(
+        CartAction.addProductToCart({ productId, quantity: 1 })
+      )
+    }
   }
 
   ngOnInit(): void {

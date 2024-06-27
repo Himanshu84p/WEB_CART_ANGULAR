@@ -14,7 +14,7 @@ body {
 
 .cart-container {
   margin-top: 7rem;
-  min-height: 100vh;
+  min-height: 60vh;
 }
 
 .card {
@@ -52,6 +52,19 @@ body {
 
 .cart-item {
   transition: box-shadow 0.3s ease;
+  position: relative;
+}
+
+
+.badge-stock {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: red;
+  color: white;
+  font-weight: 700;
+  padding: 2px 4px;
+  font-size: 12px;
 }
 
 .cart-item:hover {

@@ -21,6 +21,7 @@ export class CartComponent implements OnInit {
   loading$: Observable<boolean>;
   error$: Observable<any>;
   subtotal$: Observable<number>;
+  itemOutofStock: boolean = false;
 
   private toast = inject(HotToastService);
 
@@ -51,10 +52,26 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(CartAction.fetchCart());
     console.log('cart in cart component', this.cart$);
+    this.cart$.subscribe((cart) => {
+      cart.map((item : any) => {
+        if(item.productId.stock === 0) {
+          this.itemOutofStock = true
+        }
+      })
+    })
   }
 
   //---------------------methods for operations in cart-----------------------------
   removeProduct(productId: string): void {
+    this.cart$.subscribe((cart) => {
+      cart.map((item : any) => {
+        if(item.productId.stock === 0) {
+          this.itemOutofStock = true
+        } else {
+          this.itemOutofStock = false
+        }
+      })
+    })
     this.toast.success('Product Removed from cart');
     this.store.dispatch(CartAction.removeProductFromCart({ productId }));
   }
@@ -71,9 +88,12 @@ export class CartComponent implements OnInit {
       CartAction.decrementProductQuantity({ productId, quantity })
     );
   }
-
   //redirect to checkout on completion
   handleCheckout() {
-    this.router.navigate(['/dashboard/checkout']);
+    if(this.itemOutofStock) {
+      this.toast.warning("A Product Out of stock remove first to checkout!!")
+    } else {
+      this.router.navigate(['/dashboard/checkout']);
+    }
   }
 }

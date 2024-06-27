@@ -3,12 +3,14 @@
   max-width: 500px;
   width: 100%;
 }
+.signin-section {
+  min-height: 60vh;
+}
 
 .main {
   width: fit-content;
   margin-top: 5rem;
   padding: 1rem 2rem 2rem 2rem;
-
   background-color: lightblue;
   border-radius: 1rem;
   border: 1px solid black;

@@ -47,6 +47,7 @@ export class OrderSummaryComponent {
         )
       )
     );
+
   }
 
   ngOnInit(): void {
@@ -56,15 +57,26 @@ export class OrderSummaryComponent {
 
   //function to complete confirm order
   confirmOrder() {
-    this.cartService.deleteCart().subscribe((response: any) => {
+    const cartId = localStorage.getItem('cartId')
+    this.cartService.decreaseStockQuantity(cartId!).subscribe((response: any) => {
+      console.log('response from order', response)
       if (response.success) {
-        this.toast.info('Order SuccessFully Placed');
-        this.router.navigateByUrl('/dashboard/home');
-        console.log('response ', response);
+        localStorage.removeItem('cartId')
+        this.cartService.deleteCart().subscribe((response: any) => {
+          if (response.success) {
+            this.toast.info('Order SuccessFully Placed');
+            this.router.navigateByUrl('/dashboard/home');
+            console.log('response ', response);
+          } else {
+            this.toast.error('Error in placing the order');
+          }
+        });
       } else {
-        this.toast.error('Error in placing the order');
+        console.log('order status', response.message)
+        this.toast.error(response.message)
       }
-    });
+    })
+
 
     this.store.dispatch(CartAction.deleteCart());
   }

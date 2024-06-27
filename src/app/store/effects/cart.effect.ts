@@ -7,7 +7,7 @@ import { CartService } from '../../services/cart.service';
 
 @Injectable()
 export class CartEffects {
-  constructor(private actions$: Actions, private cartService: CartService) {}
+  constructor(private actions$: Actions, private cartService: CartService) { }
 
   //fetch cart function
   fetchCart$ = createEffect(() =>
@@ -28,8 +28,11 @@ export class CartEffects {
       ofType(CartAction.addProductToCart),
       mergeMap(({ productId, quantity }) =>
         this.cartService.addItemToCart(productId, quantity).pipe(
-          map(() => {
-            return CartAction.addProductToCartSuccess({ productId, quantity });
+          map((response) => {
+            console.log("add to cart service call",response)
+            localStorage.setItem('cartId', response.data._id)
+            const items = response.data.items
+            return CartAction.addProductToCartSuccess({items})
           }),
           catchError((error) => of(CartAction.cartError({ error })))
         )

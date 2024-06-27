@@ -12,6 +12,8 @@
             class="list-group-item cart-item"
             *ngFor="let item of cart$ | async"
           >
+          @if (item.productId.stock === 0) {
+          <span class="badge-stock">Out of Stock</span>}
             <div class="row align-items-center">
               <div class="col-md-2">
                 <img
@@ -27,7 +29,7 @@
               <div class="col-md-4">
                 <div class="input-group quantity-control">
                   <button
-                    [disabled]="item.quantity <= 1"
+                    [disabled]="item.quantity <= 1 || item.productId.stock == 0"
                     class="btn btn-outline-secondary"
                     type="button"
                     (click)="
@@ -43,7 +45,8 @@
                     readonly
                   />
                   <button
-                    [disabled]="item.quantity >= 10"
+                    [disabled]="(item.quantity >= item.productId.stock) || item.quantity >= 10 || item.productId.stock == 0"
+
                     class="btn btn-outline-secondary"
                     type="button"
                     (click)="

@@ -15,6 +15,7 @@ import * as CartAction from '../../store/actions/cart.action';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { LoaderComponent } from '../loader/loader.component';
 import { FormsModule } from '@angular/forms';
+import { Observable, tap, map, filter } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -33,6 +34,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
+  cart$: Observable<any>;
   products: any[] = [];
   filteredProducts: any[] = [];
   isLoading: boolean = true;
@@ -46,7 +48,11 @@ export class ProductListComponent implements OnInit {
     private router: Router,
     private store: Store<{ cart: CartState }>,
     private toast: HotToastService
-  ) {}
+  ) {
+    this.cart$ = this.store
+      .select((state) => state.cart.items)
+      .pipe(tap((cart) => console.log('Cart Items in cart component:', cart)));
+  }
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -72,11 +78,27 @@ export class ProductListComponent implements OnInit {
     }, 500);
   }
 
-  addToCart(productId: string): void {
-    this.toast.success('Product added to cart');
-    this.store.dispatch(
-      CartAction.addProductToCart({ productId, quantity: 1 })
-    );
+  addToCart(productId: string, stock: number): void {
+    let product:any[] = [];
+    let productInCart:any[] = [];
+    this.cart$.subscribe((cart) => {
+      console.log('products in cart', cart)
+      productInCart = cart.filter((product: any) => product.productId._id === productId)
+    })
+    if (productInCart.length !== 0) {
+      this.cart$.subscribe((cart) => {
+        product = cart.filter((product: any) => product.productId._id === productId && product.quantity == stock)
+      })
+    }
+    console.log('pfffffffffffffffffffffff>>>>>>>',product ,productInCart)
+    if (product.length !== 0 && productInCart.length !== 0) {
+      this.toast.warning("Max product stock exceed")
+    } else {
+      this.toast.success('Product added to cart');
+      this.store.dispatch(
+        CartAction.addProductToCart({ productId, quantity: 1 })
+      )
+    }
   }
 
   seeProductDetails(id: string) {

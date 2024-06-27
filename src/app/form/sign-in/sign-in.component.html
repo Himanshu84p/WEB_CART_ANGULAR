@@ -1,78 +1,83 @@
-<div class="main mx-auto shadow-lg">
-  <h1 class="text-center">Login</h1>
-  <div class="from-container">
-    <form class="example-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="inputfields">
-        <!-- email  -->
-        <p class="text-center">
-          Already have an account? <a routerLink="/auth/register">SignUp</a>
-        </p>
-
-        <mat-form-field class="example-full-width">
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            value=""
-            type="email"
-            formControlName="email"
-            id="email"
-          />
-          <div
-            *ngIf="
-              validateForm().email?.invalid &&
-              (validateForm().email?.dirty ||
-                validateForm().email?.touched ||
-                isSubmitted)
-            "
-          >
-            <small *ngIf="validateForm().email?.errors?.['required']"
-              >Email is required</small
-            >
-          </div>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-          <mat-label>Enter your password</mat-label>
-          <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            formControlName="password"
-            id="password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
-            type="button"
-          >
-            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-          </button>
-          <div
-            *ngIf="
-              validateForm().password?.invalid &&
-              (validateForm().password?.dirty ||
-                validateForm().password?.touched ||
-                isSubmitted)
-            "
-          >
-            <small *ngIf="validateForm().password?.errors?.['required']"
-              >Password is required.</small
-            >
-          </div>
-        </mat-form-field>
-      </div>
-
-     
-      <button
-        class="mt-4 mx-auto d-block"
-        mat-raised-button
-        color="accent"
-        type="submit"
+<section class="signin-section">
+  <div class="main mx-auto shadow-lg">
+    <h1 class="text-center">Login</h1>
+    <div class="from-container">
+      <form
+        class="example-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
       >
-        Submit
-      </button>
-    </form>
+        <div class="inputfields">
+          <!-- email  -->
+          <p class="text-center">
+            Already have an account? <a routerLink="/auth/register">SignUp</a>
+          </p>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              value=""
+              type="email"
+              formControlName="email"
+              id="email"
+            />
+            <div
+              *ngIf="
+                validateForm().email?.invalid &&
+                (validateForm().email?.dirty ||
+                  validateForm().email?.touched ||
+                  isSubmitted)
+              "
+            >
+              <small *ngIf="validateForm().email?.errors?.['required']"
+                >Email is required</small
+              >
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Enter your password</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password"
+              id="password"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+              type="button"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <div
+              *ngIf="
+                validateForm().password?.invalid &&
+                (validateForm().password?.dirty ||
+                  validateForm().password?.touched ||
+                  isSubmitted)
+              "
+            >
+              <small *ngIf="validateForm().password?.errors?.['required']"
+                >Password is required.</small
+              >
+            </div>
+          </mat-form-field>
+        </div>
+
+        <button
+          class="mt-4 mx-auto d-block"
+          mat-raised-button
+          color="accent"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   </div>
-</div>
+</section>

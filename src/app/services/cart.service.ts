@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class CartService {
   private apiUrl = 'http://localhost:8080/api/v1/cart';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //add item to the cart
   addItemToCart(productId: string, quantity: number): Observable<any> {
@@ -23,6 +23,22 @@ export class CartService {
       .pipe(
         map((response: any) => {
           console.log('response', response);
+          return response;
+        })
+      );
+  }
+  //decrease stock quantity on order success
+  decreaseStockQuantity(cartId: string): Observable<any> {
+    console.log('cart id', cartId);
+    return this.http
+      .post(
+        `${this.apiUrl}/order`,
+        { cartId },
+        this.getHttpOptions()
+      )
+      .pipe(
+        map((response: any) => {
+          console.log('response in decrease quantity', response);
           return response;
         })
       );
