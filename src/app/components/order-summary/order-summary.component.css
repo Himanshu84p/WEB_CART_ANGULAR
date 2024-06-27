@@ -1,4 +1,3 @@
-/* order-summary.component.scss */
 
 .card {
     margin-bottom: 20px;
@@ -29,4 +28,8 @@
   .text-primary {
     font-weight: bold;
   }
+
+.summary-container {
+  margin-top: 8rem;
+}
   

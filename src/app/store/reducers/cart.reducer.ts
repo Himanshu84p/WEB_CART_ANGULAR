@@ -14,6 +14,7 @@ export const initialState: CartState = {
   error: null,
 };
 
+//reducer are called when any of them action created
 export const cartReducer = createReducer(
   initialState,
   on(

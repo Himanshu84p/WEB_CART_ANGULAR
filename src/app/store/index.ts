@@ -1,4 +1,3 @@
-// index.ts
 
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../environments/environment';

@@ -28,8 +28,10 @@ export class ProductDetailsComponent implements OnInit {
     private store: Store<{ cart: CartState }>
   ) {}
 
+  //fetch one product from pramatere id
   fetchProduct(productId: string) {
     setTimeout(() => {
+      //service call to get product
       this.productService.getOneProduct(productId).subscribe(
         (data: any) => {
           console.log('data from fetching one product', data);
@@ -44,6 +46,7 @@ export class ProductDetailsComponent implements OnInit {
     },100);
   }
 
+  //function to add cart 
   addToCart(productId: string): void {
     this.toast.success('Product Added to cart');
     this.store.dispatch(

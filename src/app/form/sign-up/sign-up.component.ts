@@ -49,7 +49,7 @@ export class SignUpComponent {
       name: ['', [Validators.required, Validators.minLength(3)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^[6-9]{10}$/)]],
       gender: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });

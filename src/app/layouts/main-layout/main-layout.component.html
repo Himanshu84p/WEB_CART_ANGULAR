@@ -1,5 +1,4 @@
-
-<nav>
+<nav class="fixed-top">
   <section class="navbar">
     <div class="logo-container">
       <h1>WEB CART</h1>
@@ -22,13 +21,15 @@
             >Products</a
           >
         </li>
-        <li *ngIf="authService.isLoggedIn()" class="list-item">
+        <li *ngIf="authService.isLoggedIn()" class="list-item cart-item">
           <a
             class="cart"
             routerLink="/dashboard/cart"
             routerLinkActive="active_item"
-            >Cart({{ (cart$ | async)?.length || 0}})</a
           >
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge">{{ (cart$ | async)?.length || 0 }}</span>
+          </a>
         </li>
         <li *ngIf="authService.isLoggedIn()" class="list-item">
           <a class="logout" (click)="logout()">Logout</a>
@@ -46,3 +47,50 @@
     <router-outlet />
   </div>
 </main>
+<footer>
+  <section class="footer">
+    <div class="container">
+      <div class="row content-div">
+        <div class="col-md-4">
+          <h5>Contact Us</h5>
+          <ul class="contact-info">
+            <li>
+              <i class="fas fa-map-marker-alt"></i> 1234 Saffron tower,
+              Ahmedabad, India
+            </li>
+            <li><i class="fas fa-phone"></i> +1 234 567 890</li>
+            <li><i class="fas fa-envelope"></i> info.webcart.com</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Follow Us</h5>
+          <ul class="social-media">
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Quick Links</h5>
+          <ul class="quick-links">
+            <li><a routerLink="/dashboard/home">Home</a></li>
+            <li><a routerLink="/dashboard/products">Products</a></li>
+            <li><a routerLink="/dashboard/cart">Cart</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 WEB CART. All rights reserved.</p>
+    </div>
+  </section>
+</footer>

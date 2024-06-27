@@ -9,14 +9,14 @@ import { HotToastService } from '@ngxpert/hot-toast';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './order-form.component.html',
-  styleUrl: './order-form.component.css'
+  styleUrl: './order-form.component.css',
 })
 export class OrderFormComponent {
   name: string = '';
   address: string = '';
   paymentMethod: string = '';
 
-  constructor(private router: Router, private toast : HotToastService) {}
+  constructor(private router: Router, private toast: HotToastService) {}
 
   submitOrderForm() {
     if (this.name && this.address && this.paymentMethod) {
@@ -24,8 +24,8 @@ export class OrderFormComponent {
         queryParams: {
           name: this.name,
           address: this.address,
-          paymentMethod: this.paymentMethod
-        }
+          paymentMethod: this.paymentMethod,
+        },
       });
     } else {
       this.toast.error('All Fields Are required')

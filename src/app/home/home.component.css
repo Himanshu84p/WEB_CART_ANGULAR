@@ -10,7 +10,7 @@ html {
 .hero-container {
   position: relative;
   height: 100vh;
-  /* background-image: url("assets/hero-background.jpg"); Make sure to have an appropriate image */
+  
   background-size: cover;
   background-position: center;
   display: flex;
@@ -21,7 +21,7 @@ html {
 }
 
 .hero-content {
-  background: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+  background: rgba(0, 0, 0, 0.5); 
   padding: 2rem;
   border-radius: 10px;
 }
@@ -40,7 +40,7 @@ html {
   padding: 0.8rem 2rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #007bff; /* Bootstrap primary color */
+  background-color: #007bff; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -48,5 +48,5 @@ html {
 }
 
 .hero-button:hover {
-  background-color: #0056b3; /* Darker shade of the primary color */
+  background-color: #0056b3; 
 }

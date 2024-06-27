@@ -31,7 +31,7 @@ export class OrderSummaryComponent {
   ) {
     this.cart$ = this.store
       .select((state) => state.cart.items)
-      .pipe(tap((cart) => console.log('Cart Items:', cart)));
+      .pipe(tap((cart) => console.log('Cart Items in order summary:', cart)));
     this.loading$ = this.store
       .select((state) => state.cart.loading)
       .pipe(tap((loading) => console.log('Loading:', loading)));
@@ -54,15 +54,18 @@ export class OrderSummaryComponent {
     console.log('cart', this.cart$);
   }
 
+  //function to complete confirm order
   confirmOrder() {
     this.cartService.deleteCart().subscribe((response: any) => {
-      this.toast.info('Order SuccessFully Placed');
-      this.router.navigateByUrl('/dashboard/home');
-      console.log("response ",response)
+      if (response.success) {
+        this.toast.info('Order SuccessFully Placed');
+        this.router.navigateByUrl('/dashboard/home');
+        console.log('response ', response);
+      } else {
+        this.toast.error('Error in placing the order');
+      }
     });
 
-    this.store.dispatch(
-      CartAction.deleteCart()
-    );
+    this.store.dispatch(CartAction.deleteCart());
   }
 }

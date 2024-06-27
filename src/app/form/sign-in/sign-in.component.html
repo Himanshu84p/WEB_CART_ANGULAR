@@ -17,7 +17,6 @@
             formControlName="email"
             id="email"
           />
-          <!-- checking if wrong input then render below errors  -->
           <div
             *ngIf="
               validateForm().email?.invalid &&
@@ -32,7 +31,6 @@
           </div>
         </mat-form-field>
 
-        <!-- password  -->
         <mat-form-field class="example-full-width">
           <mat-label>Enter your password</mat-label>
           <input
@@ -51,7 +49,6 @@
           >
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
-          <!-- checking if wrong input then render below errors  -->
           <div
             *ngIf="
               validateForm().password?.invalid &&
@@ -67,10 +64,7 @@
         </mat-form-field>
       </div>
 
-      <!-- //error message if credentials are wrong -->
-      <!-- <div *ngIf="errorMessage">
-          <small class="font-size">{{errorMessage}}</small>
-        </div> -->
+     
       <button
         class="mt-4 mx-auto d-block"
         mat-raised-button

@@ -69,7 +69,6 @@ export class SignInComponent {
     this.toastService.error(message);
   }
 
-  //on submit function checks the valid form input or not
   onSubmit() {
     try {
       this.isSubmitted = true;

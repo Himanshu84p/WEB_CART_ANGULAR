@@ -1,49 +1,66 @@
-<div class="container mt-4">
-    <div class="row">
-      <div class="col-md-8 mx-auto">
-        <div class="card">
-          <div class="card-header">
-            Order Summary
-          </div>
-          <ul class="list-group list-group-flush">
-            @for (item of cart$ | async; track $index) {
-            <li class="list-group-item" >
-              <div class="row align-items-center">
-                <div class="col-md-2">
-                  <img [src]="item.productId.image" [alt]="item.name" class="img-fluid rounded">
-                </div>
-                <div class="col-md-6">
-                  <h5 class="card-title">{{ item.name }}</h5>
-                  <p class="card-text">Price: ${{ item.price }}</p>
-                </div>
-                <div class="col-md-4">
-                  <div class="input-group">
-                    <span class="input-group-text">Quantity:</span>
-                    <input type="text" class="form-control text-center" [value]="item.quantity" readonly>
-                  </div>
-                  <span class="text-center ms-2 text-primary">${{ item.price * item.quantity }}</span>
-                </div>
-              </div>
-            </li>}
-          </ul>
-          <div class="card-footer">
-            <div class="row">
-              <div class="col-md-6">
-                <p>Total Items: {{ (cart$ | async)?.length || 0 }}</p>
+<div class="container summary-container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card">
+        <div class="card-header">Order Summary</div>
+        <ul class="list-group list-group-flush">
+          @for (item of cart$ | async; track $index) {
+          <li class="list-group-item">
+            <div class="row align-items-center">
+              <div class="col-md-2">
+                <img
+                  [src]="item.productId.image"
+                  [alt]="item.name"
+                  class="img-fluid rounded"
+                />
               </div>
               <div class="col-md-6">
-                <p class="text-end">Total Order Value: {{ subtotal$ | async | currency }}</p>
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">Price: ${{ item.price }}</p>
               </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <span class="input-group-text">Quantity:</span>
+                  <input
+                    type="text"
+                    class="form-control text-center"
+                    [value]="item.quantity"
+                    readonly
+                  />
+                </div>
+                <span class="text-center ms-2"
+                  >ItemTotal :
+                  <strong class="text-primary"
+                    >${{ item.price * item.quantity }}</strong
+                  ></span
+                >
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-md-6">
+              <p>Total Items: {{ (cart$ | async)?.length || 0 }}</p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-end">
+                Total Order Value:
+                <strong>{{ subtotal$ | async | currency }}</strong>
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <div class="row mt-4">
-      <div class="col-md-8 mx-auto">
-        <button class="btn btn-primary btn-block" (click)="confirmOrder()">Confirm Order</button>
-      </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-8 mx-auto">
+      <button class="btn btn-primary btn-block" (click)="confirmOrder()">
+        Confirm Order
+      </button>
     </div>
   </div>
-  
+</div>

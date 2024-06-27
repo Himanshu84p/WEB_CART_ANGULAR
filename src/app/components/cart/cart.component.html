@@ -1,11 +1,17 @@
-<div class="container mt-4">
-  @if ((cart$ | async)?.length !== 0 && !( loading$ | async)) {
+
+<div class="container cart-container">
+  @if ((cart$ | async)?.length !== 0 && !(loading$ | async)) {
   <div class="row">
     <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">Cart Items</div>
+      <div class="card cart-card">
+        <div class="card-header">
+          <h3>Cart Items</h3>
+        </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let item of cart$ | async">
+          <li
+            class="list-group-item cart-item"
+            *ngFor="let item of cart$ | async"
+          >
             <div class="row align-items-center">
               <div class="col-md-2">
                 <img
@@ -19,9 +25,9 @@
                 <p class="card-text">Price: ${{ item.price }}</p>
               </div>
               <div class="col-md-4">
-                <div class="input-group">
-                  <!-- Example of input for quantity adjustment -->
+                <div class="input-group quantity-control">
                   <button
+                    [disabled]="item.quantity <= 1"
                     class="btn btn-outline-secondary"
                     type="button"
                     (click)="
@@ -30,7 +36,6 @@
                   >
                     -
                   </button>
-                  <!-- add item.quantity here -->
                   <input
                     type="text"
                     class="form-control text-center"
@@ -38,6 +43,7 @@
                     readonly
                   />
                   <button
+                    [disabled]="item.quantity >= 10"
                     class="btn btn-outline-secondary"
                     type="button"
                     (click)="
@@ -47,16 +53,21 @@
                     +
                   </button>
                 </div>
-                <button
-                  class="btn btn-danger btn-sm mt-2"
-                  (click)="removeProduct(item.productId._id)"
-                >
-                  Remove
-                </button>
-                <span class="text-center ms-2 text-primary">{{
-                  item.price * item.quantity
-                    | currency : "USD" : "symbol" : "1.2-2"
-                }}</span>
+                <div class="item-total mt-2">
+                  <span class="text-center "
+                    >ItemTotal:
+                    {{
+                      item.price * item.quantity
+                        | currency : "USD" : "symbol" : "1.2-2"
+                    }}</span
+                  >
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="removeProduct(item.productId._id)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </li>
@@ -65,7 +76,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card">
+      <div class="card summary-card">
         <div class="card-header"><strong>Checkout Summary</strong></div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -88,8 +99,8 @@
       </div>
     </div>
   </div>
-  } @if ((cart$ | async)?.length == 0 && !(loading$ | async )) {
-  <h1 class="mt-5 text-center">Cart is Empty add Products to view !!</h1>
+  } @if ((cart$ | async)?.length == 0 && !(loading$ | async)) {
+  <h1 class="mt-5 mb-5 pb-5 text-center">Cart is Empty, add Products to view !!</h1>
   } @if (loading$ | async) {
   <app-loader></app-loader>
   }
