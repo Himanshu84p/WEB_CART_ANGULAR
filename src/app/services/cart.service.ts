@@ -87,6 +87,12 @@ export class CartService {
       .get(`${this.apiUrl}`, this.getHttpOptions())
       .pipe(map((response: any) => response.data.items));
   }
+  //fetch the cart for id
+  fetchCartId(): Observable<any> {
+    return this.http
+      .get(`${this.apiUrl}`, this.getHttpOptions())
+      .pipe(map((response: any) => response));
+  }
 
   //fetch the cart
   deleteCart(): Observable<any> {

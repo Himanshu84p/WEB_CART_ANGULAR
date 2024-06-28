@@ -68,5 +68,6 @@ export class MainLayoutComponent implements OnInit {
     this.authService.logout();
     this.toastService.success('Logged Out Successfully!!');
     this.router.navigateByUrl('auth/login');
+    localStorage.removeItem('cartId')
   }
 }

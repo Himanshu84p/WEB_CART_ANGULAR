@@ -61,8 +61,9 @@ export class OrderSummaryComponent {
     this.cartService.decreaseStockQuantity(cartId!).subscribe((response: any) => {
       console.log('response from order', response)
       if (response.success) {
-        localStorage.removeItem('cartId')
+        // localStorage.removeItem('cartId')
         this.cartService.deleteCart().subscribe((response: any) => {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",response)
           if (response.success) {
             this.toast.info('Order SuccessFully Placed');
             this.router.navigateByUrl('/dashboard/home');

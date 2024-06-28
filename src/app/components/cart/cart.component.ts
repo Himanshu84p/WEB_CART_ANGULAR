@@ -8,11 +8,12 @@ import * as CartAction from '../../store/actions/cart.action';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { LoaderComponent } from '../loader/loader.component';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, FormsModule,LoaderComponent],
+  imports: [CommonModule, FormsModule, LoaderComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -24,6 +25,7 @@ export class CartComponent implements OnInit {
   itemOutofStock: boolean = false;
 
   private toast = inject(HotToastService);
+  private cartService = inject(CartService)
 
   constructor(
     private store: Store<{ cart: CartState }>,
@@ -51,10 +53,16 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(CartAction.fetchCart());
+    this.cartService.fetchCartId().subscribe(
+      (response) => {
+        console.log('>>>>>JHGHFGHFGHHG>>>>>>>>>>>>>>>>>>>>>>>>>', response)
+        localStorage.setItem('cartId', response.data._id)
+      }
+    );
     console.log('cart in cart component', this.cart$);
     this.cart$.subscribe((cart) => {
-      cart.map((item : any) => {
-        if(item.productId.stock === 0) {
+      cart?.map((item: any) => {
+        if (item.productId.stock === 0) {
           this.itemOutofStock = true
         }
       })
@@ -64,8 +72,8 @@ export class CartComponent implements OnInit {
   //---------------------methods for operations in cart-----------------------------
   removeProduct(productId: string): void {
     this.cart$.subscribe((cart) => {
-      cart.map((item : any) => {
-        if(item.productId.stock === 0) {
+      cart?.map((item: any) => {
+        if (item.productId.stock === 0) {
           this.itemOutofStock = true
         } else {
           this.itemOutofStock = false
@@ -90,7 +98,7 @@ export class CartComponent implements OnInit {
   }
   //redirect to checkout on completion
   handleCheckout() {
-    if(this.itemOutofStock) {
+    if (this.itemOutofStock) {
       this.toast.warning("A Product Out of stock remove first to checkout!!")
     } else {
       this.router.navigate(['/dashboard/checkout']);

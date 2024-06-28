@@ -82,7 +82,7 @@ export class ProductListComponent implements OnInit {
     let product:any[] = [];
     let productInCart:any[] = [];
     this.cart$.subscribe((cart) => {
-      console.log('products in cart', cart)
+      // console.log('products in cart', cart)
       productInCart = cart.filter((product: any) => product.productId._id === productId)
     })
     if (productInCart.length !== 0) {
@@ -90,7 +90,7 @@ export class ProductListComponent implements OnInit {
         product = cart.filter((product: any) => product.productId._id === productId && product.quantity == stock)
       })
     }
-    console.log('pfffffffffffffffffffffff>>>>>>>',product ,productInCart)
+    // console.log('pfffffffffffffffffffffff>>>>>>>',product ,productInCart)
     if (product.length !== 0 && productInCart.length !== 0) {
       this.toast.warning("Max product stock exceed")
     } else {
